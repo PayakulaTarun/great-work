@@ -225,6 +225,7 @@ const SectionTitle = ({ subtitle, title, description, light = false, centered = 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       className="text-4xl md:text-6xl font-black leading-tight tracking-tighter mb-6"
+      style={{ fontSize: 'clamp(2rem, 5vw, 3.75rem)' }}
     >
       {title}
     </motion.h2>
@@ -260,7 +261,7 @@ const Navbar = ({ activePage, setPage }: { activePage: Page, setPage: (p: Page) 
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-xl shadow-xl py-4 border-b border-slate-100' : 'bg-transparent py-7'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-xl shadow-xl py-3 md:py-4 border-b border-slate-100' : 'bg-transparent py-4 md:py-7'}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         <div className="cursor-pointer group" onClick={() => setPage('home')}>
           <img
@@ -289,8 +290,8 @@ const Navbar = ({ activePage, setPage }: { activePage: Page, setPage: (p: Page) 
           </button>
         </div>
 
-        <button className="lg:hidden p-2 text-[#1F2933]" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        <button aria-label="Toggle mobile menu" className="lg:hidden p-2 text-[#1F2933] min-w-[44px] min-h-[44px] flex items-center justify-center" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
@@ -376,7 +377,7 @@ const ContactPage = ({ setPage }: { setPage: (p: Page) => void }) => {
           onChange={handleInputChange}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className={`w-full bg-slate-50 border-2 rounded-2xl pl-12 pr-6 py-5 outline-none transition-all duration-300 text-slate-800 font-medium 
+          className={`w-full bg-slate-50 border-2 rounded-2xl pl-12 pr-6 py-5 outline-none transition-all duration-300 text-base md:text-lg text-slate-800 font-medium 
             ${focused ? 'border-[#1E5EFF] bg-white ring-4 ring-[#1E5EFF]/5' : 'border-slate-100 hover:border-slate-200'}`}
         />
         <label className={`absolute left-12 transition-all duration-300 pointer-events-none 
@@ -644,7 +645,7 @@ const ContactPage = ({ setPage }: { setPage: (p: Page) => void }) => {
 
 const Hero = ({ onCtaClick }: { onCtaClick: () => void }) => {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-[#020617]">
+    <section className="relative min-h-[100dvh] flex items-center pt-20 overflow-hidden bg-[#020617]">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#1E5EFF]/20 rounded-full blur-[160px] -mr-64 -mt-64" />
       <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center relative z-10">
         <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
@@ -667,7 +668,7 @@ const Hero = ({ onCtaClick }: { onCtaClick: () => void }) => {
         <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }} className="lg:block hidden">
           <div className="animate-float">
             <div className="glass rounded-[50px] p-6 border-white/10 shadow-2xl relative overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000" alt="Dashboard" className="rounded-[40px] opacity-80" />
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000" alt="Dashboard" className="rounded-[40px] opacity-80" fetchPriority="high" />
             </div>
           </div>
         </motion.div>
@@ -704,7 +705,7 @@ const AboutUsPreview = ({ setPage }: { setPage: (p: Page) => void }) => {
         <div className="relative">
           <div className="absolute inset-0 bg-blue-600/5 blur-[120px] rounded-full" />
           <div className="relative rounded-[60px] overflow-hidden shadow-2xl border-8 border-white">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1000" alt="About Team" className="w-full" />
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1000" alt="About Team" className="w-full" loading="lazy" />
           </div>
         </div>
       </div>
@@ -1176,7 +1177,7 @@ const Footer = ({ onNavigate }: { onNavigate: (p: Page) => void }) => (
       </div>
       <div>
         <h4 className="text-white font-black text-xs uppercase tracking-widest mb-8">Quick Links</h4>
-        <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest">
+        <ul className="space-y-4 text-[11px] font-bold uppercase tracking-widest">
           {['home', 'services', 'solutions', 'about', 'contact', 'blog'].map(p => (
             <li key={p} onClick={() => onNavigate(p as Page)} className="hover:text-white cursor-pointer transition-colors">{p}</li>
           ))}
@@ -1195,7 +1196,7 @@ const Footer = ({ onNavigate }: { onNavigate: (p: Page) => void }) => (
         </div>
       </div>
     </div>
-    <div className="container mx-auto px-6 pt-10 border-t border-white/5 text-[10px] font-black uppercase tracking-widest">
+    <div className="container mx-auto px-6 pt-10 border-t border-white/5 text-[11px] font-black uppercase tracking-widest">
       <p>© 2024 Great Work Agency. All Rights Reserved.</p>
     </div>
   </footer>
@@ -1271,7 +1272,7 @@ const AboutPage = ({ setPage }: { setPage: (p: Page) => void }) => {
             </p>
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="rounded-[60px] overflow-hidden shadow-2xl relative">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000" alt="Team Work" className="w-full" />
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000" alt="Team Work" className="w-full" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-tr from-[#1E5EFF]/20 to-transparent" />
           </motion.div>
         </div>
@@ -1567,7 +1568,7 @@ const BlogPage = ({ onReadPost, setPage }: { onReadPost: (p: BlogPost) => void, 
                 className="group rounded-[48px] bg-white border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col"
               >
                 <div className="aspect-video overflow-hidden">
-                  <img src={post.img} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                  <img src={post.img} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" loading="lazy" />
                 </div>
                 <div className="p-10 flex flex-col flex-grow">
                   <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-[#1E5EFF] mb-4">
