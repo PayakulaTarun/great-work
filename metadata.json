@@ -1,0 +1,8 @@
+{
+  "name": "Aurora Pro Agency",
+  "description": "A premium digital agency website featuring high-end UI/UX, animations, and a comprehensive component system designed for enterprise-grade digital products.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
