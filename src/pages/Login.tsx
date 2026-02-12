@@ -64,14 +64,25 @@ const Login = () => {
     const handleJoinSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setFormState('loading');
-        // Simulate Application API
+
+        // Simulate Processing
         setTimeout(() => {
             setFormState('success');
-            setTimeout(() => {
-                console.log('Application submitted', joinData);
-            }, 2000);
-        }, 2000);
+        }, 1500);
     };
+
+    const whatsappUrl = `https://wa.me/918367208436?text=${encodeURIComponent(`
+*New Join Team Application*
+--------------------------------
+*Category:* ${categories.find(c => c.id === joinData.category)?.label || joinData.category}
+*Name:* ${joinData.name}
+*Email:* ${joinData.email}
+*Phone:* ${joinData.phone}
+*Location:* ${joinData.address}
+*Message:* ${joinData.message || 'N/A'}
+*Resume:* ${joinData.resume ? joinData.resume.name : 'Not Uploaded'}
+--------------------------------
+Sent from Great Work Website`.trim())}`;
 
     const nextStep = () => {
         setJoinStep(prev => prev + 1);
@@ -106,11 +117,22 @@ const Login = () => {
                                     <Check size={40} />
                                 </div>
                                 <h3 className="text-2xl font-black text-[#020617] mb-2">
-                                    {activeTab === 'login' ? 'Login Successful!' : 'Application Sent!'}
+                                    {activeTab === 'login' ? 'Login Successful!' : 'Application Ready!'}
                                 </h3>
-                                <p className="text-slate-500 font-medium">
-                                    {activeTab === 'login' ? 'Redirecting to your dashboard...' : 'We will review your profile shortly.'}
+                                <p className="text-slate-500 font-medium mb-8">
+                                    {activeTab === 'login' ? 'Redirecting to your dashboard...' : 'Please click below to send your application details to HR via WhatsApp.'}
                                 </p>
+
+                                {activeTab === 'join' && (
+                                    <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] text-white rounded-2xl font-black uppercase tracking-widest hover:bg-[#20bd5a] transition-all shadow-lg hover:shadow-green-500/20"
+                                    >
+                                        Send to WhatsApp <Send size={18} />
+                                    </a>
+                                )}
                             </motion.div>
                         ) : activeTab === 'login' ? (
                             <motion.form
