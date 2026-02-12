@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, LogIn, Loader2, ArrowRight, User, Phone, MapPin, UploadCloud, Briefcase, FileText, Check, Send } from 'lucide-react';
+import { Mail, Lock, LogIn, Loader2, ArrowRight, User, Phone, MapPin, UploadCloud, Briefcase, FileText, Check, Send, ArrowLeft } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import FloatingInput from '../components/ui/FloatingInput';
 
 const Login = () => {
     const [activeTab, setActiveTab] = useState<'login' | 'join'>('login');
+    const [joinStep, setJoinStep] = useState(1);
     const [formState, setFormState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const navigate = useNavigate();
 
@@ -66,12 +67,18 @@ const Login = () => {
         // Simulate Application API
         setTimeout(() => {
             setFormState('success');
-            // Reset after success if needed, or redirect
             setTimeout(() => {
-                // navigate('/'); 
                 console.log('Application submitted', joinData);
             }, 2000);
         }, 2000);
+    };
+
+    const nextStep = () => {
+        setJoinStep(prev => prev + 1);
+    };
+
+    const prevStep = () => {
+        setJoinStep(prev => prev - 1);
     };
 
     return (
@@ -80,12 +87,12 @@ const Login = () => {
             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#1E5EFF]/10 rounded-full blur-[160px] -mr-64 -mt-64 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#22E6C3]/10 rounded-full blur-[120px] -ml-40 -mb-40 pointer-events-none" />
 
-            <div className={`w-full relative z-10 transition-all duration-500 ${activeTab === 'join' ? 'max-w-4xl' : 'max-w-md'}`}>
-
+            {/* Container is always max-w-md now */}
+            <div className="w-full relative z-10 transition-all duration-500 max-w-md">
 
                 <motion.div
                     layout
-                    className="bg-white rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden"
+                    className="bg-white rounded-[40px] p-8 md:p-10 shadow-2xl relative overflow-hidden"
                 >
                     <AnimatePresence mode="wait">
                         {formState === 'success' ? (
@@ -175,7 +182,7 @@ const Login = () => {
                                         Don't have an account?{' '}
                                         <button
                                             type="button"
-                                            onClick={() => setActiveTab('join')}
+                                            onClick={() => { setActiveTab('join'); setJoinStep(1); }}
                                             className="text-[#1E5EFF] font-black uppercase tracking-wider hover:underline"
                                         >
                                             Join Team
@@ -184,105 +191,160 @@ const Login = () => {
                                 </div>
                             </motion.form>
                         ) : (
-                            <motion.form
+                            <motion.div
                                 key="join-form"
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
-                                onSubmit={handleJoinSubmit}
-                                className="space-y-8"
                             >
-                                <div className="grid md:grid-cols-3 gap-4 mb-8">
-                                    {categories.map((cat) => (
-                                        <label
-                                            key={cat.id}
-                                            className={`relative cursor-pointer p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col gap-2 group text-center
-                                            ${joinData.category === cat.id
-                                                    ? 'border-[#1E5EFF] bg-[#1E5EFF]/5'
-                                                    : 'border-slate-100 hover:border-slate-200 hover:bg-slate-50'}`}
+                                <form onSubmit={handleJoinSubmit} className="space-y-6">
+                                    {/* Step 1: Category Selection */}
+                                    {joinStep === 1 && (
+                                        <motion.div
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            className="space-y-6"
                                         >
-                                            <input
-                                                type="radio"
-                                                name="category"
-                                                value={cat.id}
-                                                checked={joinData.category === cat.id}
-                                                onChange={handleJoinChange}
-                                                className="absolute opacity-0 inset-0 cursor-pointer"
-                                                required
-                                            />
-                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center mx-auto transition-colors ${joinData.category === cat.id ? 'bg-[#1E5EFF] text-white' : 'bg-slate-100 text-slate-300'}`}>
-                                                {joinData.category === cat.id && <Check size={16} />}
+                                            <div className="text-center mb-6">
+                                                <h3 className="text-xl font-black text-[#020617]">Select Your Category</h3>
+                                                <p className="text-slate-400 text-sm">Choose the best fit for you</p>
                                             </div>
-                                            <span className={`font-black text-sm transition-colors ${joinData.category === cat.id ? 'text-[#1E5EFF]' : 'text-slate-700'}`}>{cat.label}</span>
-                                        </label>
-                                    ))}
-                                </div>
-
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <FloatingInput label="Full Name" name="name" required icon={User} value={joinData.name} onChange={handleJoinChange} />
-                                    <FloatingInput label="Email Address" name="email" type="email" required icon={Mail} value={joinData.email} onChange={handleJoinChange} />
-                                </div>
-
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <FloatingInput label="Phone Number" name="phone" required icon={Phone} value={joinData.phone} onChange={handleJoinChange} />
-                                    <FloatingInput label="City / Location" name="address" required icon={MapPin} value={joinData.address} onChange={handleJoinChange} />
-                                </div>
-
-                                <div className="relative group">
-                                    <textarea
-                                        name="message"
-                                        value={joinData.message}
-                                        onChange={handleJoinChange}
-                                        rows={3}
-                                        placeholder="Tell us about yourself..."
-                                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-6 outline-none transition-all duration-300 text-base font-medium resize-none focus:border-[#1E5EFF] focus:bg-white focus:ring-4 focus:ring-[#1E5EFF]/5"
-                                    />
-                                    <label className="absolute left-6 -top-3 bg-white px-2 text-[10px] font-black uppercase tracking-widest text-[#1E5EFF]">
-                                        Message (Optional)
-                                    </label>
-                                </div>
-
-                                <div className={`relative border-2 border-dashed rounded-3xl p-8 text-center transition-all duration-300 cursor-pointer hover:border-[#1E5EFF]/50 ${joinData.resume ? 'border-[#1E5EFF] bg-[#1E5EFF]/5' : 'border-slate-200'}`}>
-                                    <input type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} required className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                                    <div className="flex flex-col items-center gap-3">
-                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${joinData.resume ? 'bg-[#1E5EFF] text-white' : 'bg-slate-50 text-slate-300'}`}>
-                                            {joinData.resume ? <FileText size={20} /> : <UploadCloud size={20} />}
-                                        </div>
-                                        {joinData.resume ? (
-                                            <div>
-                                                <p className="font-bold text-[#020617]">{joinData.resume.name}</p>
-                                                <p className="text-[10px] text-[#1E5EFF] font-black uppercase tracking-widest mt-1">Change File</p>
+                                            <div className="space-y-3">
+                                                {categories.map((cat) => (
+                                                    <label
+                                                        key={cat.id}
+                                                        className={`relative cursor-pointer p-4 rounded-2xl border-2 transition-all duration-300 flex items-center gap-4 group
+                                                        ${joinData.category === cat.id
+                                                                ? 'border-[#1E5EFF] bg-[#1E5EFF]/5'
+                                                                : 'border-slate-100 hover:border-slate-200 hover:bg-slate-50'}`}
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            name="category"
+                                                            value={cat.id}
+                                                            checked={joinData.category === cat.id}
+                                                            onChange={handleJoinChange}
+                                                            className="absolute opacity-0 inset-0 cursor-pointer"
+                                                        />
+                                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors flex-shrink-0 ${joinData.category === cat.id ? 'bg-[#1E5EFF] text-white' : 'bg-slate-100 text-slate-300'}`}>
+                                                            {joinData.category === cat.id ? <Check size={20} /> : <User size={20} />}
+                                                        </div>
+                                                        <div className="flex-grow">
+                                                            <span className={`font-black text-sm block transition-colors ${joinData.category === cat.id ? 'text-[#1E5EFF]' : 'text-slate-700'}`}>{cat.label}</span>
+                                                            <span className="text-xs text-slate-400">{cat.desc}</span>
+                                                        </div>
+                                                    </label>
+                                                ))}
                                             </div>
-                                        ) : (
-                                            <div>
-                                                <p className="font-bold text-slate-600">Upload Resume</p>
-                                                <p className="text-xs text-slate-400">PDF/DOCX Max 5MB</p>
+                                            <button
+                                                type="button"
+                                                onClick={nextStep}
+                                                disabled={!joinData.category}
+                                                className="w-full py-5 bg-[#020617] text-white rounded-2xl font-black uppercase tracking-[0.2em] shadow-xl hover:bg-[#1E5EFF] transition-all flex items-center justify-center gap-4 group disabled:opacity-50 disabled:cursor-not-allowed"
+                                            >
+                                                Next Step <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                            </button>
+                                        </motion.div>
+                                    )}
+
+                                    {/* Step 2: Details */}
+                                    {joinStep === 2 && (
+                                        <motion.div
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            className="space-y-6"
+                                        >
+                                            <div className="flex items-center gap-4 mb-6">
+                                                <button type="button" onClick={prevStep} className="p-2 rounded-full hover:bg-slate-50"><ArrowLeft size={20} /></button>
+                                                <h3 className="text-xl font-black text-[#020617]">Personal Details</h3>
                                             </div>
-                                        )}
+
+                                            <FloatingInput label="Full Name" name="name" required icon={User} value={joinData.name} onChange={handleJoinChange} />
+                                            <FloatingInput label="Email Address" name="email" type="email" required icon={Mail} value={joinData.email} onChange={handleJoinChange} />
+                                            <FloatingInput label="Phone Number" name="phone" required icon={Phone} value={joinData.phone} onChange={handleJoinChange} />
+
+                                            <button
+                                                type="button"
+                                                onClick={nextStep}
+                                                className="w-full py-5 bg-[#020617] text-white rounded-2xl font-black uppercase tracking-[0.2em] shadow-xl hover:bg-[#1E5EFF] transition-all flex items-center justify-center gap-4 group"
+                                            >
+                                                Next Step <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                            </button>
+                                        </motion.div>
+                                    )}
+
+                                    {/* Step 3: Final Info */}
+                                    {joinStep === 3 && (
+                                        <motion.div
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            className="space-y-6"
+                                        >
+                                            <div className="flex items-center gap-4 mb-6">
+                                                <button type="button" onClick={prevStep} className="p-2 rounded-full hover:bg-slate-50"><ArrowLeft size={20} /></button>
+                                                <h3 className="text-xl font-black text-[#020617]">Final Step</h3>
+                                            </div>
+
+                                            <FloatingInput label="City / Location" name="address" required icon={MapPin} value={joinData.address} onChange={handleJoinChange} />
+
+                                            <div className="relative group">
+                                                <textarea
+                                                    name="message"
+                                                    value={joinData.message}
+                                                    onChange={handleJoinChange}
+                                                    rows={3}
+                                                    placeholder="Tell us about yourself..."
+                                                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-6 outline-none transition-all duration-300 text-sm font-medium resize-none focus:border-[#1E5EFF] focus:bg-white focus:ring-4 focus:ring-[#1E5EFF]/5"
+                                                />
+                                            </div>
+
+                                            <div className={`relative border-2 border-dashed rounded-3xl p-6 text-center transition-all duration-300 cursor-pointer hover:border-[#1E5EFF]/50 ${joinData.resume ? 'border-[#1E5EFF] bg-[#1E5EFF]/5' : 'border-slate-200'}`}>
+                                                <input type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} required className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                                                <div className="flex flex-col items-center gap-2">
+                                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${joinData.resume ? 'bg-[#1E5EFF] text-white' : 'bg-slate-50 text-slate-300'}`}>
+                                                        {joinData.resume ? <FileText size={18} /> : <UploadCloud size={18} />}
+                                                    </div>
+                                                    {joinData.resume ? (
+                                                        <div>
+                                                            <p className="font-bold text-[#020617] text-sm">{joinData.resume.name}</p>
+                                                            <p className="text-[9px] text-[#1E5EFF] font-black uppercase tracking-widest mt-1">Change File</p>
+                                                        </div>
+                                                    ) : (
+                                                        <div>
+                                                            <p className="font-bold text-slate-600 text-sm">Upload Resume</p>
+                                                            <p className="text-[10px] text-slate-400">PDF/DOCX Max 5MB</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                type="submit"
+                                                disabled={formState === 'loading'}
+                                                className="w-full py-5 bg-[#020617] text-white rounded-2xl font-black uppercase tracking-[0.2em] shadow-xl hover:bg-[#1E5EFF] transition-all flex items-center justify-center gap-4 group"
+                                            >
+                                                {formState === 'loading' ? <Loader2 className="animate-spin" size={24} /> : <>Submit Application <Send size={20} className="group-hover:translate-x-1 transition-transform" /></>}
+                                            </button>
+                                        </motion.div>
+                                    )}
+
+                                    <div className="mt-8 text-center pt-8 border-t border-slate-100">
+                                        <p className="text-slate-500 font-medium text-sm">
+                                            Already have an account?{' '}
+                                            <button
+                                                type="button"
+                                                onClick={() => setActiveTab('login')}
+                                                className="text-[#1E5EFF] font-black uppercase tracking-wider hover:underline"
+                                            >
+                                                Login
+                                            </button>
+                                        </p>
                                     </div>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    disabled={formState === 'loading'}
-                                    className="w-full py-5 bg-[#020617] text-white rounded-2xl font-black uppercase tracking-[0.2em] shadow-xl hover:bg-[#1E5EFF] transition-all flex items-center justify-center gap-4 group"
-                                >
-                                    {formState === 'loading' ? <Loader2 className="animate-spin" size={24} /> : <>Submit Application <Send size={20} className="group-hover:translate-x-1 transition-transform" /></>}
-                                </button>
-
-                                <div className="mt-8 text-center pt-8 border-t border-slate-100">
-                                    <p className="text-slate-500 font-medium text-sm">
-                                        Already have an account?{' '}
-                                        <button
-                                            type="button"
-                                            onClick={() => setActiveTab('login')}
-                                            className="text-[#1E5EFF] font-black uppercase tracking-wider hover:underline"
-                                        >
-                                            Login
-                                        </button>
-                                    </p>
-                                </div>
-                            </motion.form>
+                                </form>
+                            </motion.div>
                         )}
                     </AnimatePresence>
                 </motion.div>
