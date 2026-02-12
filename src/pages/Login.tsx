@@ -80,7 +80,7 @@ const Login = () => {
 *Phone:* ${joinData.phone}
 *Location:* ${joinData.address}
 *Message:* ${joinData.message || 'N/A'}
-*Resume:* ${joinData.resume ? joinData.resume.name : 'Not Uploaded'}
+*Resume:* Pending (I will attach it in this chat)
 --------------------------------
 Sent from Great Work Website`.trim())}`;
 
@@ -120,18 +120,23 @@ Sent from Great Work Website`.trim())}`;
                                     {activeTab === 'login' ? 'Login Successful!' : 'Application Ready!'}
                                 </h3>
                                 <p className="text-slate-500 font-medium mb-8">
-                                    {activeTab === 'login' ? 'Redirecting to your dashboard...' : 'Please click below to send your application details to HR via WhatsApp.'}
+                                    {activeTab === 'login' ? 'Redirecting to your dashboard...' : 'Please click below to send your application details via WhatsApp.'}
                                 </p>
 
                                 {activeTab === 'join' && (
-                                    <a
-                                        href={whatsappUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] text-white rounded-2xl font-black uppercase tracking-widest hover:bg-[#20bd5a] transition-all shadow-lg hover:shadow-green-500/20"
-                                    >
-                                        Send to WhatsApp <Send size={18} />
-                                    </a>
+                                    <div className="flex flex-col gap-4">
+                                        <a
+                                            href={whatsappUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] text-white rounded-2xl font-black uppercase tracking-widest hover:bg-[#20bd5a] transition-all shadow-lg hover:shadow-green-500/20"
+                                        >
+                                            Send Details <Send size={18} />
+                                        </a>
+                                        <p className="text-xs text-slate-400 max-w-[250px] mx-auto leading-relaxed">
+                                            <span className="font-bold text-[#020617]">Note:</span> Please manually attach and send your resume file in the WhatsApp chat.
+                                        </p>
+                                    </div>
                                 )}
                             </motion.div>
                         ) : activeTab === 'login' ? (
