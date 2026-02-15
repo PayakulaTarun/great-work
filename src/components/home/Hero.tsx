@@ -21,9 +21,20 @@ const Hero = () => {
                     <p className="text-base font-bold text-white/80 mb-12 max-w-xl tracking-wide border-l-4 border-[#22E6C3] pl-4">
                         Get Real Projects • Build Your Career — <span className="text-[#22E6C3]">100% Free for Job Seekers</span>
                     </p>
-                    <div className="flex flex-wrap gap-5">
-                        <Link to="/contact" className="px-10 py-5 bg-[#1E5EFF] text-white rounded-lg font-black uppercase tracking-widest text-[12px] hover:scale-105 transition-all shadow-xl">Start Project</Link>
+                    <div className="flex flex-col sm:flex-row gap-8 mt-4">
+                        <div className="flex flex-col gap-3">
+                            <span className="text-[#22E6C3] text-xs font-bold uppercase tracking-widest">For Job Seekers</span>
+                            <Link to="/join" className="px-8 py-4 bg-[#22E6C3] text-[#020617] rounded-lg font-black uppercase tracking-widest text-[11px] hover:scale-105 transition-all shadow-[0_0_20px_rgba(34,230,195,0.3)]">
+                                Find Work Now
+                            </Link>
+                        </div>
 
+                        <div className="flex flex-col gap-3">
+                            <span className="text-[#1E5EFF] text-xs font-bold uppercase tracking-widest">For Clients</span>
+                            <Link to="/contact" className="px-8 py-4 bg-[#1E5EFF] text-white rounded-lg font-black uppercase tracking-widest text-[11px] hover:scale-105 transition-all shadow-[0_0_20px_rgba(30,94,255,0.3)]">
+                                Post a Project
+                            </Link>
+                        </div>
                     </div>
                 </motion.div>
                 <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }} className="lg:block hidden">

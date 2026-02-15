@@ -70,7 +70,7 @@ export default function App() {
 
       {/* Primary Global Contact Trigger (WhatsApp) */}
       <motion.a
-        href="https://wa.me/918367208436"
+        href="https://wa.me/qr/7QTLRCDFVZQHP1"
         target="_blank"
         rel="noreferrer"
         whileHover={{ scale: 1.1 }}

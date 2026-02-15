@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import React, { useState } from 'react';
 import SectionTitle from '../components/ui/SectionTitle';
 import FloatingInput from '../components/ui/FloatingInput';
-import { MessageCircle, Mail, Phone, MapPin, Clock, Share2, Check, User, Smartphone, Briefcase, Layout, DollarSign, MessageSquare, Send, Loader2, ChevronDown } from 'lucide-react';
+import { MessageCircle, Mail, Phone, MapPin, Clock, Share2, Check, User, Smartphone, Briefcase, Layout, DollarSign, MessageSquare, Send, Loader2, ChevronDown, Instagram, Facebook, Twitter } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Contact = () => {
@@ -53,7 +53,7 @@ const Contact = () => {
                     <h3 className="text-[10px] font-black uppercase tracking-[0.4em] mb-12 text-center text-slate-400">Connect With Us Instantly</h3>
                     <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                         {/* WhatsApp */}
-                        <a href="https://wa.me/918367208436" target="_blank" rel="noreferrer"
+                        <a href="https://wa.me/qr/7QTLRCDFVZQHP1" target="_blank" rel="noreferrer"
                             className="group p-10 rounded-[48px] bg-white border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-bl-full group-hover:scale-110 transition-transform" />
                             <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-8 shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-all duration-500">
@@ -135,10 +135,12 @@ const Contact = () => {
                                 <h5 className="text-[10px] font-black uppercase tracking-[0.4em] mb-8 text-slate-400">Social & Messaging</h5>
                                 <div className="flex flex-wrap gap-4">
                                     {[
-                                        { icon: <MessageCircle />, color: 'hover:bg-emerald-500', link: 'https://wa.me/918367208436' },
+                                        { icon: <Instagram />, color: 'hover:bg-pink-500', link: 'https://www.instagram.com/greatwork.solutions?utm_source=qr&igsh=dWVraGE0cGh1dHhv' },
+                                        { icon: <MessageCircle />, color: 'hover:bg-emerald-500', link: 'https://wa.me/qr/7QTLRCDFVZQHP1' },
+                                        { icon: <Facebook />, color: 'hover:bg-blue-600', link: 'https://www.facebook.com/Greatwork.Solutions' },
+                                        { icon: <Twitter />, color: 'hover:bg-sky-500', link: 'https://x.com/Greatwork_Sltns' },
                                         { icon: <Mail />, color: 'hover:bg-blue-500', link: 'mailto:workgreat76@gmail.com' },
                                         { icon: <Phone />, color: 'hover:bg-indigo-500', link: 'tel:+918367208436' },
-                                        { icon: <Share2 />, color: 'hover:bg-purple-500', link: 'https://signal.me/#p/+918367208436' },
                                     ].map((s, i) => (
                                         <a key={i} href={s.link} className={`w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-600 transition-all duration-300 hover:text-white hover:scale-110 ${s.color}`}>
                                             {s.icon}

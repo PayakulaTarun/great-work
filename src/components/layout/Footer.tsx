@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { TrendingUp, ChevronRight } from 'lucide-react';
+import { TrendingUp, ChevronRight, Instagram, MessageCircle, Facebook, Twitter } from 'lucide-react';
 
 const Footer = () => (
     <footer className="py-24 bg-[#020617] text-white/50 border-t border-white/5">
@@ -32,7 +32,21 @@ const Footer = () => (
             <div>
                 <h4 className="text-white font-black text-xs uppercase tracking-widest mb-8">Contact Us</h4>
                 <p className="text-sm font-medium mb-4">📍 Hyderabad, India</p>
-                <p className="text-sm font-medium text-[#6EC1FF]">workgreat76@gmail.com</p>
+                <p className="text-sm font-medium text-[#6EC1FF] mb-6">workgreat76@gmail.com</p>
+                <div className="flex gap-4">
+                    <a href="https://www.instagram.com/greatwork.solutions?utm_source=qr&igsh=dWVraGE0cGh1dHhv" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#E1306C] hover:text-white transition-all text-white/60">
+                        <Instagram size={18} />
+                    </a>
+                    <a href="https://wa.me/qr/7QTLRCDFVZQHP1" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#25D366] hover:text-white transition-all text-white/60">
+                        <MessageCircle size={18} />
+                    </a>
+                    <a href="https://www.facebook.com/Greatwork.Solutions" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-all text-white/60">
+                        <Facebook size={18} />
+                    </a>
+                    <a href="https://x.com/Greatwork_Sltns" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-black hover:text-white transition-all text-white/60">
+                        <Twitter size={18} />
+                    </a>
+                </div>
             </div>
             <div>
                 <h4 className="text-white font-black text-xs uppercase tracking-widest mb-8">Newsletter</h4>
