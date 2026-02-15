@@ -5,11 +5,11 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Footer from './components/layout/Footer';
 import Navbar from './components/layout/Navbar';
 import About from './pages/About';
-import Blog from './pages/Blog';
-import BlogPost from './pages/BlogPost';
+// import Blog from './pages/Blog';
+// import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
 import Home from './pages/Home';
-import Portfolio from './pages/Portfolio';
+// import Portfolio from './pages/Portfolio';
 import ServiceDetail from './pages/ServiceDetail';
 import Services from './pages/Services';
 import Solutions from './pages/Solutions';
@@ -42,10 +42,10 @@ export default function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/services/:id" element={<ServiceDetail />} />
             <Route path="/solutions" element={<Solutions />} />
-            <Route path="/portfolio" element={<Portfolio />} />
+            {/* <Route path="/portfolio" element={<Portfolio />} /> */}
             <Route path="/about" element={<About />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
+            {/* <Route path="/blog" element={<Blog />} /> */}
+            {/* <Route path="/blog/:id" element={<BlogPost />} /> */}
             <Route path="/contact" element={<Contact />} />
             <Route path="/join" element={<JobApplication />} />
             <Route path="/login" element={<Login />} />
